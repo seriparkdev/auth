@@ -1,0 +1,28 @@
+@startuml
+
+actor Client
+participant LoginPage
+participant authStore
+participant Server
+
+autonumber
+Client -[#red]> LoginPage: login
+
+LoginPage -[#red]> authStore: login(userId, userPassword)
+note left
+<b>Params
+userId: string
+userPassword: string
+end note
+
+authStore -[#red]> Server: API Request: POST /api/auth/login
+
+Server --[#blue]> authStore: Response: accessToken, refreshToken
+note left
+<b>Response
+accessToken: string
+refreshToken: string
+end note
+
+authStore -[#blue]-> Client: routing to MainPage
+@enduml

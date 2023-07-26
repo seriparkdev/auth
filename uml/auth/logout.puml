@@ -1,0 +1,19 @@
+@startuml
+
+actor Client
+participant MainPage
+participant authStore
+participant Server
+
+Client -[#red]> MainPage: logout
+MainPage -[#red]> authStore: logout(accessToken)
+note left
+<b>Params
+accessToken: string
+end note
+
+authStore -[#red]> Server: API Request: POST /api/auth/logout
+Server --[#blue]> authStore: Response: status 'OK'
+authStore --[#blue]> Client: redirect to LoginPage
+@enduml
+

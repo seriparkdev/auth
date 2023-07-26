@@ -1,0 +1,31 @@
+@startuml
+
+actor Client
+participant MainPage
+
+Client -[#red]> MainPage: 로그인 성공
+
+MainPage -[#red]> authStore: reissueToken()
+note left
+로그인 후 40초 마다
+end note
+
+authStore -[#red]> Server: API request: POST /auth/token/reissue
+note left
+<b>Params
+accessToken: string
+end note
+
+
+alt refreshToken is expired
+return exception
+authStore --[#blue]> Client: 로그아웃
+end
+
+
+
+
+Server --[#blue]> authStore: Response: accessToken
+
+authStore --[#blue]> Client: 로그인 유지
+@enduml

@@ -1,0 +1,22 @@
+@startuml
+
+actor Client
+participant MainPage
+participant authStore
+participant Server
+
+Client -[#red]> MainPage: access to MainPage
+note left
+accessToken이 만료된 상황
+end note
+Server --[#blue]> authStore: 401 error
+authStore -[#red]> Server: reissueToken(accessToken, refreshToken)
+note left
+<b>Params
+accessToken: string
+refreshToken: string
+end note
+Server --[#blue]> authStore: reissued accessToken
+authStore --[#blue]> Client:
+
+@enduml
