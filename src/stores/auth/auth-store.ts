@@ -4,6 +4,7 @@ import { api } from 'src/api';
 import { LoginInfo, LoginResponse } from 'stores/auth/type';
 import {
   getAccessToken,
+  getRefreshToken,
   removeAccessToken,
   removeRefreshToken,
   setAccessToken,
@@ -45,7 +46,10 @@ export const useAuthStore = defineStore('auth', () => {
 
   const reissueToken = async () => {
     try {
-      const response = await api.post('/token/reissue', getAccessToken());
+      const response = await api.post('/token/reissue', {
+        accessToken: getAccessToken(),
+        refreshToken: getRefreshToken(),
+      });
       setAccessToken(response.data.accessToken);
 
       setTimeout(() => {
