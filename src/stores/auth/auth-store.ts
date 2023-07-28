@@ -67,6 +67,11 @@ export const useAuthStore = defineStore(
         setAccessToken(response.data.accessToken);
         user.value.accessToken = response.data.accessToken;
 
+        Notify.create({
+          message: '토큰이 재발급 되었습니다.',
+          color: 'positive',
+        });
+
         setTimeout(() => {
           if (!getAccessToken()) return;
           reissueToken();
