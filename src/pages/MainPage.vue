@@ -17,14 +17,15 @@ onMounted(() => {
 
 <template>
   <main class="flex justify-center" style="margin-top: 200px">
-    <section>
-      <div class="text-h6">
-        access token:
-        {{ authStore.user.accessToken }}
+    <section style="width: 300px; word-break: break-all">
+      <h5 class="text-center">토큰 목록</h5>
+      <div>
+        <strong>access token</strong>
+        <div>{{ authStore.user.accessToken }}</div>
       </div>
-      <div class="text-h6">
-        refresh token:
-        {{ authStore.user.refreshToken }}
+      <div>
+        <strong>refresh token</strong>
+        <div>{{ authStore.user.refreshToken }}</div>
       </div>
       <q-btn
         @click="logoutHandler"
