@@ -43,7 +43,7 @@ export const useAuthStore = defineStore(
 
     const logout = async () => {
       try {
-        await api.post('/auth/logout', getAccessToken());
+        await api.post('/auth/logout', { accessToken: getAccessToken() });
 
         removeRefreshToken();
         removeAccessToken();
@@ -59,10 +59,13 @@ export const useAuthStore = defineStore(
 
     const reissueToken = async () => {
       try {
+        if (!getAccessToken()) return;
         const response = await api.post('/token/reissue', {
           accessToken: getAccessToken(),
           refreshToken: getRefreshToken(),
         });
+
+        console.log(response);
 
         setAccessToken(response.data.accessToken);
         user.value.accessToken = response.data.accessToken;
@@ -73,7 +76,6 @@ export const useAuthStore = defineStore(
         });
 
         setTimeout(() => {
-          if (!getAccessToken()) return;
           reissueToken();
         }, 40000);
       } catch (error) {
